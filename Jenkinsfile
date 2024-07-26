@@ -11,5 +11,15 @@ environment {
                sh 'mvn clean deploy'
             }
         }
+
+        stage("SonarQube analysis") {
+        environment {
+            scannerHome = tool 'omar-sonar-scanner';
+        }
+        steps{ withSonarQubeEnv('omar-sonarqube-server') {
+           sh "${scannerHome}/bin/sonar-scanner"
+        }
+        } 
+        }
     }
 }
